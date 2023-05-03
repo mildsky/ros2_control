@@ -68,7 +68,8 @@ std::string get_text_for_element(
   const auto get_text_output = element_it->GetText();
   if (!get_text_output)
   {
-    throw std::runtime_error("text not specified in the " + tag_name + " tag");
+    std::cerr << "text not specified in the " << tag_name << " tag";
+    return "";
   }
   return get_text_output;
 }
