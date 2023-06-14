@@ -486,52 +486,64 @@ public:
   {
     check_for_duplicates(hardware_info);
     load_hardware<Actuator, ActuatorInterface>(hardware_info, actuator_loader_, actuators_);
-    initialize_hardware(hardware_info, actuators_.back());
-    import_state_interfaces(actuators_.back());
-    import_command_interfaces(actuators_.back());
+    if (initialize_hardware(hardware_info, actuators_.back()))
+    {
+      import_state_interfaces(actuators_.back());
+      import_command_interfaces(actuators_.back());
+    }
   }
 
   void load_and_initialize_sensor(const HardwareInfo & hardware_info)
   {
     check_for_duplicates(hardware_info);
     load_hardware<Sensor, SensorInterface>(hardware_info, sensor_loader_, sensors_);
-    initialize_hardware(hardware_info, sensors_.back());
-    import_state_interfaces(sensors_.back());
+    if (initialize_hardware(hardware_info, sensors_.back()))
+    {
+      import_state_interfaces(sensors_.back());
+    }
   }
 
   void load_and_initialize_system(const HardwareInfo & hardware_info)
   {
     check_for_duplicates(hardware_info);
     load_hardware<System, SystemInterface>(hardware_info, system_loader_, systems_);
-    initialize_hardware(hardware_info, systems_.back());
-    import_state_interfaces(systems_.back());
-    import_command_interfaces(systems_.back());
+    if (initialize_hardware(hardware_info, systems_.back()))
+    {
+      import_state_interfaces(systems_.back());
+      import_command_interfaces(systems_.back());
+    }
   }
 
   void initialize_actuator(
     std::unique_ptr<ActuatorInterface> actuator, const HardwareInfo & hardware_info)
   {
     this->actuators_.emplace_back(Actuator(std::move(actuator)));
-    initialize_hardware(hardware_info, actuators_.back());
-    import_state_interfaces(actuators_.back());
-    import_command_interfaces(actuators_.back());
+    if (initialize_hardware(hardware_info, actuators_.back()))
+    {
+      import_state_interfaces(actuators_.back());
+      import_command_interfaces(actuators_.back());
+    }
   }
 
   void initialize_sensor(
     std::unique_ptr<SensorInterface> sensor, const HardwareInfo & hardware_info)
   {
     this->sensors_.emplace_back(Sensor(std::move(sensor)));
-    initialize_hardware(hardware_info, sensors_.back());
-    import_state_interfaces(sensors_.back());
+    if (initialize_hardware(hardware_info, sensors_.back()))
+    {
+      import_state_interfaces(sensors_.back());
+    }
   }
 
   void initialize_system(
     std::unique_ptr<SystemInterface> system, const HardwareInfo & hardware_info)
   {
     this->systems_.emplace_back(System(std::move(system)));
-    initialize_hardware(hardware_info, systems_.back());
-    import_state_interfaces(systems_.back());
-    import_command_interfaces(systems_.back());
+    if (initialize_hardware(hardware_info, systems_.back()))
+    {
+      import_state_interfaces(systems_.back());
+      import_command_interfaces(systems_.back());
+    }
   }
 
   // hardware plugins
